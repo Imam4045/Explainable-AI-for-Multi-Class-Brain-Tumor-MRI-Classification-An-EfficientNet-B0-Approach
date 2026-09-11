@@ -71,7 +71,7 @@ A stratified **80% / 10% / 10%** split is used after augmentation:
 
 ---
 
-## 🧠 Models Compared
+## 🤖 Models Compared
 
 Six architectures are evaluated under a unified training setup:
 
@@ -100,16 +100,26 @@ Six architectures are evaluated under a unified training setup:
 ## 🔬 Methodology Overview
 
 ```text
-Raw MRI Images (1,505, 4 classes)
+Raw MRI Images
+(1,505 images · 4 classes)
         │
         ▼
-MRI Preprocessing
+Dataset Inspection & Class Verification
+        │
+        ├─► Glioma
+        ├─► Meningioma
+        ├─► Normal
+        └─► Pituitary
+        │
+        ▼
+MRI Preprocessing & Quality Analysis
   ├─ Resize → 224×224
   ├─ Grayscale conversion
   ├─ Z-score normalization
   ├─ Min-Max scaling → 0–1
   ├─ CLAHE contrast enhancement
-  └─ Non-Local Means (NLM) denoising
+  ├─ Non-Local Means (NLM) denoising
+  └─ PSNR / SSIM quality evaluation
         │
         ▼
 Dataset Augmentation
@@ -143,7 +153,7 @@ Comprehensive Evaluation
   ├─ Specificity · NPV
   ├─ 95% Confidence Interval
   ├─ Confusion Matrix
-  └─ Computational Profiling
+  └─ Computational Profiling (Training time, Inference time, GPU memory usage, RAM usage)
         │
         ▼
 Best Model → EfficientNet-B0
@@ -154,12 +164,6 @@ Best Model → EfficientNet-B0
         │
         └─► Stratified 5-Fold Cross-Validation
 ```
-
-### Preprocessing
-
-All images are resized to **224×224** pixels. The preprocessing workflow converts MRI images to grayscale, applies z-score normalization with clipping, rescales intensities, enhances local contrast using **CLAHE**, and removes noise using **Non-Local Means (NLM)** denoising.
-
-The notebook also evaluates preprocessing quality using **PSNR** and **SSIM**. In the sampled quality evaluation, CLAHE followed by denoising produced higher PSNR and SSIM values than the normalized image comparison across the four sampled classes.
 
 ### Training Configuration
 
@@ -185,9 +189,10 @@ Training was performed in a Kaggle GPU environment using **dual T4 GPUs and 32 G
 
 ### Explainability with Grad-CAM
 
-After EfficientNet-B0 was selected as the best-performing model, **Grad-CAM** was used to generate class-specific activation maps from the model's final convolutional features.
+After selecting **EfficientNet-B0** as the best model, **Grad-CAM** was used to create heatmaps showing which parts of the MRI images influenced the model's predictions.
 
-The resulting heatmaps highlight regions of the MRI scans that contributed most strongly to the model's predictions, supporting interpretability and helping assess whether the model focuses on meaningful tumor-related areas.
+These heatmaps indicate whether the model is focusing on important **tumor-related regions**.
+
 
 ---
 
@@ -244,37 +249,28 @@ For the exact experimental environment, using Kaggle with GPU acceleration is re
 
 ## Run
 
-1. Download the **PMRAM Bangladeshi Brain Cancer - MRI Dataset** from Kaggle and attach it to a Kaggle notebook.
-2. Open `brain-tumor-classification-using-mri-images(1).ipynb`.
+1. Download the **PMRAM Bangladeshi Brain Cancer - MRI Dataset** from Kaggle.
+2. Open `brain-tumor-classification-using-mri-images.ipynb`.
 3. Run the notebook cells sequentially.
-4. The notebook first inspects the raw dataset and class distribution.
-5. Run the preprocessing and PSNR/SSIM evaluation stages.
-6. Generate the augmented dataset and the stratified **80/10/10** train/validation/test split.
-7. Train the six candidate architectures and evaluate them on the train, validation, and test sets.
-8. Select **EfficientNet-B0** based on the comparative test results.
-9. Generate learning curves, ROC/PR curves, confusion matrices, and Grad-CAM visualizations.
-10. Run the stratified **5-fold cross-validation** experiment for EfficientNet-B0.
-11. Model checkpoints are saved under `/kaggle/working/checkpoints`.
+4. Generate the augmented dataset and **80/10/10** train/validation/test split.
+5. Train and evaluate the six models.
+6. Generate the evaluation results and **Grad-CAM** visualizations.
+7. Run **5-fold cross-validation** for EfficientNet-B0.
+8. Model checkpoints are saved under `/kaggle/working/checkpoints`.
 
 ---
 
 ## 📈 Key Findings
 
-1. **EfficientNet-B0 performed best** among the six evaluated architectures.
+1. **EfficientNet-B0 performed best** among the six models.
+2. It achieved **99.60% test accuracy** with **99.60% precision**, **99.59% recall**, **99.60% F1-score**, and **0.9999 ROC-AUC**.
+3. **5-fold cross-validation** achieved a mean accuracy of **99.07% ± 0.50%**.
+4. EfficientNet-B0 achieved the highest **Cohen's Kappa of 0.9947** with a 95% CI of **[0.9907, 1.0000]**.
+5. The model made very few mistakes, correctly classifying **185/187 Glioma**, **180/181 Meningioma**, **198/198 Normal**, and **187/187 Pituitary** images.
+6. **Grad-CAM** showed that the model focused on important tumor-related regions.
+7. **LeViT-128s** was the fastest model, while **EfficientNet-B0** provided the best overall performance.
 
-2. It achieved **99.60% test accuracy**, **99.60% precision**, **99.59% recall**, **99.60% F1-score**, and **0.9999 macro ROC-AUC**.
-
-3. Stratified **5-fold cross-validation** produced a mean accuracy of **99.07% ± 0.50%**, with fold accuracies of 99.58%, 98.26%, 98.84%, 99.58%, and 99.09%.
-
-4. EfficientNet-B0 achieved the highest Cohen's Kappa of **0.9947**, with a reported 95% confidence interval of **[0.9907, 1.0000]**.
-
-5. The EfficientNet-B0 confusion matrix showed very limited misclassification: **185/187 Glioma**, **180/181 Meningioma**, **198/198 Normal**, and **187/187 Pituitary** test samples were correctly classified.
-
-6. Grad-CAM visualizations showed that the model focused on class-specific regions associated with tumor-relevant structures, providing an interpretable view of its predictions.
-
-7. Computational profiling showed that **LeViT-128s** was the fastest evaluated model in inference and required the lowest GPU memory, while **EfficientNet-B0** provided the strongest overall balance of predictive performance and computational cost.
-
-8. The study combines model comparison, preprocessing evaluation, cross-validation, computational profiling, learning-curve analysis, and Grad-CAM explainability into a single reproducible evaluation pipeline.
+The results demonstrate that EfficientNet-B0 provides an accurate, reliable, and interpretable approach for multi-class brain tumor MRI classification.
 
 ---
 
@@ -283,14 +279,6 @@ For the exact experimental environment, using Kaggle with GPU acceleration is re
 **Explainable AI for Multi-Class Brain Tumor MRI Classification: An EfficientNet-B0 Approach**
 
 [Read the full paper on IEEE Xplore](https://ieeexplore.ieee.org/document/11502491)
-
-### Authors
-
-- **Md. Imam Hasan** — East West University
-- **Amdadur Rahman** — East West University
-- **Sami Al Zabid** — East West University
-
-The paper presents the complete comparative evaluation of the six architectures and identifies EfficientNet-B0 as the proposed model for four-class brain tumor MRI classification.
 
 ---
 
