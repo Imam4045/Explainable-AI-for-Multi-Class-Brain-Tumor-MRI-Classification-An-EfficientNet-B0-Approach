@@ -4,6 +4,23 @@ Built a deep learning approach to recognize four types of brain MRI scans: **gli
 
 ---
 
+## 📑Table of Contents
+
+- [Objectives](#-objectives)
+- [Dataset](#️-dataset)
+- [Models Compared](#-models-compared)
+- [Methodology Overview](#-methodology-overview)
+- [Technologies Used](#️-technologies-used)
+- [Setup](#️-setup)
+- [Requirements](#requirements)
+- [Run](#run)
+- [Key Findings](#-key-findings)
+- [Research Paper](#-research-paper)
+- [License](#-license)
+- [Contact](#-contact)
+
+---
+
 ## 🎯 Objectives
 
 The main objectives of this project are to:
