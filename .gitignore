@@ -1,0 +1,80 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Virtual Environments
+# =========================
+.venv/
+venv/
+env/
+ENV/
+
+# =========================
+# Generated Datasets
+# =========================
+raw_augmented/
+raw_split/
+
+# =========================
+# Model Checkpoints / Weights
+# =========================
+checkpoints/
+*.pth
+*.pt
+*.ckpt
+*.h5
+*.weights
+
+# =========================
+# Generated Results / Figures
+# =========================
+results/
+figures/
+outputs/
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.pdf
+
+# =========================
+# Generated Data / Exports
+# =========================
+*.csv
+*.xlsx
+*.json
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# IDE / Editor
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# Temporary Files
+# =========================
+*.tmp
+*.temp
+*.bak
