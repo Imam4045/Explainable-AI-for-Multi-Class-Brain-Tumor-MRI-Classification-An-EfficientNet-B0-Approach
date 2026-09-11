@@ -282,16 +282,12 @@ The results demonstrate that EfficientNet-B0 provides an accurate, reliable, and
 
 ---
 
-## 🔐 License
+## 🔒 License
 
-Please make sure the license in this README matches the license file included in the GitHub repository. The provided project materials do not specify a repository license.
+This project is licensed under the [MIT License](./LICENSE).
 
 ---
 
-## ✉️ Contact
+## 📧 Contact
 
-For questions or collaboration:
-
-- **Md. Imam Hasan:** 2023-1-60-030@std.ewubd.edu
-- **Amdadur Rahman:** 2023-1-60-037@std.ewubd.edu
-- **Sami Al Zabid:** 2022-1-60-103@std.ewubd.edu
+If you have any questions or concerns, please don't hesitate to contact me via email at imam220826@gmail.com
