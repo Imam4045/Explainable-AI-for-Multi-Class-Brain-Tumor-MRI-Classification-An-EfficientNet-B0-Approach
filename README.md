@@ -1,6 +1,6 @@
 # 🧠 Explainable AI for Multi-Class Brain Tumor MRI Classification with EfficientNet-B0
 
-Built a deep learning system to classify brain MRI scans into **glioma, meningioma, pituitary tumor, and normal** classes. It compares multiple deep learning architectures and includes **cross-validation, performance analysis, and Grad-CAM visualizations** for a clearer understanding of model predictions.
+Built a deep learning approach to recognize four types of brain MRI scans: **glioma, meningioma, pituitary tumor, and normal**. It compares multiple deep learning architectures and includes **cross-validation, performance analysis, and Grad-CAM visualizations** for a clearer understanding of model predictions.
 
 ---
 
